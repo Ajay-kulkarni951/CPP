@@ -1,0 +1,52 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<unistd.h>
+#include<fcntl.h>
+#include<io.h>
+using namespace std;
+//stdin 	standard input device		keyboard	0
+//stdout	standard output device		monitor		1
+//stderr	standard error device 		monitor		2
+class FileX
+{
+public:
+	int fd;
+
+	FileX(char Name[])
+	{
+		fd = open(Name,O_RDONLY);
+		if(fd == -1)
+		{
+			cout<<"Unable to open file\n";
+		}
+		else
+		{
+			cout<<"File successfully opened..\n";
+		}
+	}
+	~FileX()
+	{
+		close(fd);
+	}
+	void ReadData()
+	{
+		char Arr[20];
+		read(fd,Arr,10);
+		//printf("%s",Arr);
+		write(1,Arr,10);
+	}
+};
+
+int main()
+{
+	char str[30];
+
+	cout<<"Enter file name\n";
+	cin>>str;
+
+	FileX obj(str);
+	obj.ReadData();
+
+	return 0;
+}
